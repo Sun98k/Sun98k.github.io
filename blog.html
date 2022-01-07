@@ -29,6 +29,61 @@
 	<script src="js/cnm.sb_mp.js"></script>
 	<script src="js/cnm.sb_copy.js"></script>
 	<script src="kbl.js"></script>
+	<script type="text/javascript">
+		var caution = false
+		function setCookie(name, value, expires, path, domain, secure) {
+			var curCookie = name + "=" + escape(value) +
+				((expires) ? ";expires=" + expires.toGMTString() : "") +
+				((path) ? "; path=" + path : "") +
+				((domain) ? "; domain=" + domain : "") +
+				((secure) ? ";secure" : "")
+			if (!caution || (name + "=" + escape(value)).length <= 4000) {
+				document.cookie = curCookie
+			}
+			else if (confirm("Cookie exceeds 4KB and will be cut!")) {
+				document.cookie = curCookie
+			}
+		}
+		function getCookie(name) {
+			var prefix = name + "="
+			var cookieStartIndex = document.cookie.indexOf(prefix)
+			if (cookieStartIndex == -1) {
+				return null
+			}
+			var cookieEndIndex = document.cookie.indexOf(";", cookieStartIndex + prefix.length)
+			if (cookieEndIndex == -1) {
+				cookieEndIndex = document.cookie.length
+			}
+			return unescape(document.cookie.substring(cookieStartIndex + prefix.length, cookieEndIndex))
+		}
+		function deleteCookie(name, path, domain) {
+			if (getCookie(name)) {
+				document.cookie = name + "=" +
+					((path) ? "; path=" + path : "") +
+					((domain) ? "; domain=" + domain : "") +
+					"; expires=Thu, 01-Jan-70 00:00:01 GMT"
+			}
+		}
+		function fixDate(date) {
+			var base = new Date(0)
+			var skew = base.getTime()
+			if (skew > 0) {
+				date.setTime(date.getTime() - skew)
+			}
+		}
+		var now = new Date()
+		fixDate(now)
+		now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000)
+		var visits = getCookie("counter")
+		if (!visits) {
+			visits = 1;
+		}
+		else {
+			visits = parseInt(visits) + 1;
+		}
+		setCookie("counter", visits, now)
+		document.write("您是到访的第" + visits + "位用户！")
+	</script>
 
 </head>
 
@@ -40,7 +95,8 @@
 			<ul id="cleft">
 				<div class="cleft_top">
 					<div class="cleft_topbg">
-						<div class="cleftbg_img"><img src="https://q1.qlogo.cn/g?b=qq&nk=916403064&s=640" alt="头像"></div>
+						<div class="cleftbg_img"><img src="https://q1.qlogo.cn/g?b=qq&nk=916403064&s=640" alt="头像">
+						</div>
 					</div>
 					<div class="cleftbg_p">有酒有故事来喝一杯吧</div>
 				</div>
@@ -52,7 +108,7 @@
 				<li id="cleft_li05"><img src="font/cnmsb05.png" /><span>其他站点</span></li>
 				<li id="cleft_li07"><img src="font/cnmsb07.png" /><span>本站源码</span></li>
 				<li id="cleft_li08"><img src="font/cnmsb01.png" /><span>静态资源</span></li>
-				<li id="cleft_li06" onclick="AddFavorite('小刀娱乐网',location.href)"><img
+				<li id="cleft_li06" onclick="AddFavorite('孙奥',location.href)"><img
 						src="font/cnmsb06.png" /><span>收藏页面</span></li>
 
 				<!-- <li class="cleft_bottom"><img src="font/nav_bottom.png"><span>宽度设置</span></li> -->
@@ -92,7 +148,7 @@
 					</div>
 					<!-- 版权信息，可修改,可删除,不强求 -->
 					<div class="nav01_fooder">版权所有:站长所有 &nbsp;&nbsp;|&nbsp;&nbsp; 备案号:备案？不可能滴
-						&nbsp;&nbsp;|&nbsp;&nbsp; © 2020-2029  All Copyright Reserved</div>
+						&nbsp;&nbsp;|&nbsp;&nbsp; © 2020-2029 All Copyright Reserved</div>
 				</div>
 
 
@@ -217,13 +273,13 @@
 					<p class="ebpx">--- 暂时先展示这么多啦 ---</p>
 				</div>
 
-
 				<!-- 第三页 - 站长团队 -->
 				<div id="nav03">
 					<div class="enav03_p">
 						<h3>Sun<span>个人blog页面</span></h3>
 						<h5>划水摸鱼，闲无止境~</h5>
 						<p>2020-202</p>
+						<p>当你在凝视深渊的时候，深渊也正在凝视着你！</p>
 
 					</div>
 					<div class="enav03_team">
@@ -275,7 +331,7 @@
 						</div>
 						<!-- 作品展示模板NO2 -->
 						<div class="nav05_centent_mb">
-							<a href="http://x6d.com/" target="_blank" rel="noopener noreferrer">
+							<a href="http://kxdao.net/" target="_blank" rel="noopener noreferrer">
 								<div><img src="img/nav05_zp02.jpg" alt="[]"></div>
 								<h3>小刀娱乐网</h3>
 								<p>好多好看好用的内容在里面</p>
@@ -284,7 +340,8 @@
 						</div>
 						<!-- 作品展示模板NO3 -->
 						<div class="nav05_centent_mb">
-							<a href="https://blog.csdn.net/weixin_46263778?spm=1000.2115.3001.5343" target="_blank" rel="noopener noreferrer">
+							<a href="https://blog.csdn.net/weixin_46263778?spm=1000.2115.3001.5343" target="_blank"
+								rel="noopener noreferrer">
 								<div><img src="img/nav05_zp03.jpg" alt="[]"></div>
 								<h3>csdn个人主页</h3>
 								<p>技术小白个人分享</p>
@@ -300,34 +357,42 @@
 							</a>
 							<div>立即前往</div>
 						</div>
-												<!-- 作品展示模板NO5 -->
-						<div class="nav05_centent_mb">
-							<a href="独角兽.html" target="_blank" rel="noopener noreferrer">
-								<div><img src="img/nav05_zp05.jpg" alt="[]"></div>
-								<h3>火爆小应用</h3>
-								<p>今天吃什么</p>
-							</a>
-							<div>立即前往</div>
-						</div>
-						<!-- 作品展示模板NO6 -->
+						<!-- 作品展示模板NO5 -->
 						<div class="nav05_centent_mb">
 							<a href="15000/index.html" target="_blank" rel="noopener noreferrer">
-								<div><img src="img/tp1.png" alt="[]"></div>
-								<h3>朋友圈游戏</h3>
-								<p>给朋友圈装上朋友圈小霸王游戏机</p>
+								<div><img src="img/nav05_zp05.jpg" alt="[]"></div>
+								<h3>怀旧游戏机</h3>
+								<p>你想玩的里面都有~</p>
 							</a>
 							<div>立即前往</div>
 						</div>
-						<!-- 作品展示模板NO7 -->
+						<!-- 作品展示模板NO6荣誉证书 -->
 						<div class="nav05_centent_mb">
 							<a href="获得证书/index.html" target="_blank" rel="noopener noreferrer">
-								<div><img src="img/tp2.png" alt="[]"></div>
-								<h3>荣誉证书展示</h3>
-								<p>快来看我装逼</p>
+								<div><img src="img/nav05_zp06.png" alt="[]"></div>
+								<h3>我获得的荣誉</h3>
+								<p>我的荣誉就是你的荣誉~</p>
 							</a>
 							<div>立即前往</div>
 						</div>
-
+							<!-- 作品展示模板NO7 联合收款码 -->
+							<div class="nav05_centent_mb">
+								<a href="soukuan/" target="_blank" rel="noopener noreferrer">
+									<div><img src="http://m.qpic.cn/psc?/V51Lqkwj3wEyqp2EZkU60688G61vborg/TmEUgtj9EK6.7V8ajmQrEDMamK14rWm.zxkBirEcPaPnp4kJaXDLXy1FOVsphgpVn6ExyA64LAmKltIUDEw*9jd8kJNxWEtkapEOn..vixM!/b&bo=sASiArAEogIBFzA!&rf=viewer_4" alt="[]"></div>
+									<h3>联合收款码</h3>
+									<p>收款码五合一（免费）~</p>
+								</a>
+								<div>立即前往</div>
+							</div>
+							<!-- 作品展示模板NO7 联合收款码 -->
+							<div class="nav05_centent_mb">
+								<a href="独角兽.html" target="_blank" rel="noopener noreferrer">
+									<div><img src="http://m.qpic.cn/psc?/V51Lqkwj3wEyqp2EZkU60688G61vborg/TmEUgtj9EK6.7V8ajmQrEIT*cYlXX1V2Z6LwEGEByMkQ6NaN6j3reN*deyQBrRNbW4eCPyq9n1tc8xQFqJmGaeodDcjCtyAeWn2pt8.1zRI!/b&bo=gAc4BAAAAAABN6s!&rf=viewer_4" alt="[]"></div>
+									<h3>今天想吃啥？</h3>
+									<p>不知道吃啥？抽一个吧！！！</p>
+								</a>
+								<div>立即前往</div>
+					</div>
 
 
 					<div class="nav05_centent">
@@ -344,10 +409,10 @@
 							</a>
 							<div>立即前往</div>
 						</div>
-						
+
 						<!-- 作品展示模板NO7 -->
 						<div class="nav05_centent_mb">
-							<a href="http://#" target="_blank" rel="noopener noreferrer">
+							<a href="http://m.qpic.cn/psc?/V51Lqkwj3wEyqp2EZkU60688G61vborg/TmEUgtj9EK6.7V8ajmQrEKTMjj.s.4659NoT7bEkEs75Unc7.ApZsXn9mOoN.Kv1Z*zsEzlJN.0otn4QXnukLga0qWSeyKGfIwRcQs8keJY!/b&bo=GgOABAAAAAABF60!&rf=viewer_4" target="_blank" rel="noopener noreferrer">
 								<div><img src="img/nav05_zp03.jpg" alt="[]"></div>
 								<h3>贫困网</h3>
 								<p>大哥大姐们，给小弟捐点呗</p>
@@ -386,7 +451,7 @@
 							头像【tx.jpg】链接：<span>https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/cb94ddb129a2d625b2bf9cd41781294946040074c54d215d91a6fec19d17f89bbf85410ddc0accb58a4eadec117b1083?pictype=scale&from=30113&version=3.3.3.3&uin=22741441&fname=tx.jpg&size=750</span>
 						</p>
 						<p>
-							官网首页页面背景图片【shouye.jpg】链接：<span>https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/ea696cade47ec01a4f2c58b388fd85795311c5d9cb4bdc17a97460c319758177db45d99138e6cf4bf9d437e8140e4c72?pictype=scale&from=30113&version=3.3.3.3&uin=22741441&fname=shouye.jpg&size=750</span>
+							官网首页页面背景图片【shouye.jpg】链接：<span>https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/ea696cade47ec01a4f2c58b388fd85795311c5d9cb4bdc17a97460c319758177db45d99138e6cf4bf9d437e8140e4c72?pictype=scale&from=30113&version=3.3.3.3&uin=22741441&fname=shouye.jpeg&size=750</span>
 						</p>
 						<p>
 							关于本站页面顶部图片【guanyubenzhan.jpg】链接：<span>https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/662ea4195755f0cd46211b621aa3182a9c3aac9b6c5ad71b61935ffd475a56a953ba9463e9dd1af985367c936460b450?pictype=scale&from=30113&version=3.3.3.3&uin=22741441&fname=guanyubenzhan.jpg&size=750</span>
@@ -486,10 +551,10 @@
 							此源码全开源发布，转载还请保留版权信息
 						</p>
 						<p>
-							官方网站：<a href="https://">HTTPS://</a>
+							官方网站：<a href="https://github.com/Sun98k/Sun98k.github.io">https://github.com/Sun98k/Sun98k.github.io</a>
 						</p>
 						<p>
-						
+
 
 						<p>
 							&nbsp;
@@ -502,7 +567,7 @@
 						<p>
 							主页面底部版权可修改，可删除，不强求。
 						</p>
-						
+
 						<p>
 							各站长可以在自己的网站发布此主页的开源代码，还请保留版权。
 						</p>
@@ -919,98 +984,133 @@
 						<h2>🦄官方站点🦄</h2>
 						<p>注:如果官方站点打不开则因为服务器被DDOS了</p>
 					</div>
-					<!-- 作品展示模板NO1 -->
-					<div class="nav05_centent_mb">
-						<a href="index.html" target="_blank" rel="noopener noreferrer">
-							<div><img src="img/nav05_zp01.jpg" alt="[]"></div>
-							<h3>引导页</h3>
-							<p>可以通过引导页联系我</p>
-						</a>
-						<div>立即前往</div>
+						<!-- 作品展示模板NO1 -->
+						<div class="nav05_centent_mb">
+							<a href="index.html" target="_blank" rel="noopener noreferrer">
+								<div><img src="img/nav05_zp01.jpg" alt="[]"></div>
+								<h3>引导页</h3>
+								<p>可以通过引导页联系我</p>
+							</a>
+							<div>立即前往</div>
+						</div>
+						<!-- 作品展示模板NO2 -->
+						<div class="nav05_centent_mb">
+							<a href="http://kxdao.net/" target="_blank" rel="noopener noreferrer">
+								<div><img src="img/nav05_zp02.jpg" alt="[]"></div>
+								<h3>小刀娱乐网</h3>
+								<p>好多好看好用的内容在里面</p>
+							</a>
+							<div>立即前往</div>
+						</div>
+						<!-- 作品展示模板NO3 -->
+						<div class="nav05_centent_mb">
+							<a href="https://blog.csdn.net/weixin_46263778?spm=1000.2115.3001.5343" target="_blank"
+								rel="noopener noreferrer">
+								<div><img src="img/nav05_zp03.jpg" alt="[]"></div>
+								<h3>csdn个人主页</h3>
+								<p>技术小白个人分享</p>
+							</a>
+							<div>立即前往</div>
+						</div>
+						<!-- 作品展示模板NO4 -->
+						<div class="nav05_centent_mb">
+							<a href="biaobai/index.html" target="_blank" rel="noopener noreferrer">
+								<div><img src="img/nav05_zp04.jpg" alt="[]"></div>
+								<h3>不要点我</h3>
+								<p>点我你就会被内涵~</p>
+							</a>
+							<div>立即前往</div>
+						</div>
+						<!-- 作品展示模板NO5 -->
+						<div class="nav05_centent_mb">
+							<a href="15000/index.html" target="_blank" rel="noopener noreferrer">
+								<div><img src="img/nav05_zp05.jpg" alt="[]"></div>
+								<h3>怀旧游戏机</h3>
+								<p>你想玩的里面都有~</p>
+							</a>
+							<div>立即前往</div>
+						</div>
+						<!-- 作品展示模板NO6荣誉证书 -->
+						<div class="nav05_centent_mb">
+							<a href="获得证书/index.html" target="_blank" rel="noopener noreferrer">
+								<div><img src="img/nav05_zp06.png" alt="[]"></div>
+								<h3>我获得的荣誉</h3>
+								<p>我的荣誉就是你的荣誉~</p>
+							</a>
+							<div>立即前往</div>
+						</div>
+							<!-- 作品展示模板NO7 联合收款码 -->
+							<div class="nav05_centent_mb">
+								<a href=soukuan/index.html" target="_blank" rel="noopener noreferrer">
+									<div><img src="http://m.qpic.cn/psc?/V51Lqkwj3wEyqp2EZkU60688G61vborg/TmEUgtj9EK6.7V8ajmQrEDMamK14rWm.zxkBirEcPaPnp4kJaXDLXy1FOVsphgpVn6ExyA64LAmKltIUDEw*9jd8kJNxWEtkapEOn..vixM!/b&bo=sASiArAEogIBFzA!&rf=viewer_4" alt="[]"></div>
+									<h3>联合收款码</h3>
+									<p>收款码五合一（免费）~</p>
+								</a>
+								<div>立即前往</div>
+							</div>
+							<!-- 作品展示模板NO7 联合收款码 -->
+							<div class="nav05_centent_mb">
+								<a href="独角兽.html" target="_blank" rel="noopener noreferrer">
+									<div><img src="http://m.qpic.cn/psc?/V51Lqkwj3wEyqp2EZkU60688G61vborg/TmEUgtj9EK6.7V8ajmQrEIT*cYlXX1V2Z6LwEGEByMkQ6NaN6j3reN*deyQBrRNbW4eCPyq9n1tc8xQFqJmGaeodDcjCtyAeWn2pt8.1zRI!/b&bo=gAc4BAAAAAABN6s!&rf=viewer_4" alt="[]"></div>
+									<h3>今天想吃啥？</h3>
+									<p>不知道吃啥？抽一个吧！！！</p>
+								</a>
+								<div>立即前往</div>
 					</div>
-					<!-- 作品展示模板NO2 -->
-					<div class="nav05_centent_mb">
-						<a href="http://kxdao.net/" target="_blank" rel="noopener noreferrer">
-							<div><img src="img/nav05_zp02.jpg" alt="[]"></div>
-							<h3>小刀娱乐网</h3>
-							<p>好多好看好用的内容在里面</p>
-						</a>
-						<div>立即前往</div>
-					</div>
-					<!-- 作品展示模板NO3 -->
-					<div class="nav05_centent_mb">
-						<a href="https://blog.csdn.net/weixin_46263778?spm=1000.2115.3001.5343" target="_blank" rel="noopener noreferrer">
-							<div><img src="img/nav05_zp03.jpg" alt="[]"></div>
-							<h3>csdn个人主页</h3>
-							<p>技术小白个人分享</p>
-						</a>
-						<div>立即前往</div>
-					</div>
-					<!-- 作品展示模板NO4 -->
-					<div class="nav05_centent_mb">
-						<a href="http:///" target="_blank" rel="noopener noreferrer">
-							<div><img src="img/nav05_zp04.jpg" alt="[]"></div>
-							<h3>不要点我</h3>
-							<p>点我你就会被内涵~</p>
-						</a>
-						<div>立即前往</div>
-					</div>
-					
-				</div>
 
 
-				<div class="nav05_centent">
-					<div class="nav05_centent_tit">
-						<h1>🦄团队成员·优秀站点🦄</h1>
-						<p>优秀的站点，就要被展示出来！</p>
+					<div class="nav05_centent">
+						<div class="nav05_centent_tit">
+							<h1>🦄团队成员·优秀站点🦄</h1>
+							<p>优秀的站点，就要被展示出来！</p>
+						</div>
+						<!-- 作品展示模板NO1 -->
+						<div class="nav05_centent_mb">
+							<a href="http://#" target="_blank" rel="noopener noreferrer">
+								<div><img src="img/nav05_zp01.jpg" alt="[]"></div>
+								<h3>老吴博客</h3>
+								<p>老吴就爱白嫖</p>
+							</a>
+							<div>立即前往</div>
+						</div>
+
+						<!-- 作品展示模板NO7 -->
+						<div class="nav05_centent_mb">
+							<a href="http://m.qpic.cn/psc?/V51Lqkwj3wEyqp2EZkU60688G61vborg/TmEUgtj9EK6.7V8ajmQrEKTMjj.s.4659NoT7bEkEs75Unc7.ApZsXn9mOoN.Kv1Z*zsEzlJN.0otn4QXnukLga0qWSeyKGfIwRcQs8keJY!/b&bo=GgOABAAAAAABF60!&rf=viewer_4" target="_blank" rel="noopener noreferrer">
+								<div><img src="img/nav05_zp03.jpg" alt="[]"></div>
+								<h3>贫困网</h3>
+								<p>大哥大姐们，给小弟捐点呗</p>
+							</a>
+							<div>立即前往</div>
+						</div>
 					</div>
-					<!-- 作品展示模板NO1 -->
-					<div class="nav05_centent_mb">
-						<a href="http://#" target="_blank" rel="noopener noreferrer">
-							<div><img src="img/nav05_zp01.jpg" alt="[]"></div>
-							<h3>老吴博客</h3>
-							<p>老吴就爱白嫖</p>
-						</a>
-						<div>立即前往</div>
-					</div>
-					
-					<!-- 作品展示模板NO7 -->
-					<div class="nav05_centent_mb">
-						<a href="http://#" target="_blank" rel="noopener noreferrer">
-							<div><img src="img/nav05_zp03.jpg" alt="[]"></div>
-							<h3>贫困网</h3>
-							<p>大哥大姐们，给小弟捐点呗</p>
-						</a>
-						<div>立即前往</div>
-					</div>
+					<p class="nav05_footer">你有酷酷或者实用的站点推荐嘛？~</p>
 				</div>
-				<p class="nav05_footer">你有酷酷或者实用的站点推荐嘛？~</p>
+			<!-- 页面截止 -->
+			<!-- 导航区域 -->
+			<ul id="exnav">
+				<li><img src="font/cnmsb01.png" />
+					<p>首页</p>
+				</li>
+				<li><img src="font/cnmsb02.png" />
+					<p>关于本站</p>
+				</li>
+				<li><img src="font/cnmsb03.png" />
+					<p>站长团队</p>
+				</li>
+				<li><img src="font/cnmsb04.png" />
+					<p>商业合作</p>
+				</li>
+				<li><img src="font/cnmsb05.png" />
+					<p>站点展示</p>
+				</li>
+			</ul>
+			<!-- 背景飘落 -->
+			<div id="xuna"></div>
+			<script src="js/cnm.sb_bg.js"></script>
 		</div>
-		<!-- 页面截止 -->
-		<!-- 导航区域 -->
-		<ul id="exnav">
-			<li><img src="font/cnmsb01.png" />
-				<p>首页</p>
-			</li>
-			<li><img src="font/cnmsb02.png" />
-				<p>关于本站</p>
-			</li>
-			<li><img src="font/cnmsb03.png" />
-				<p>站长团队</p>
-			</li>
-			<li><img src="font/cnmsb04.png" />
-				<p>商业合作</p>
-			</li>
-			<li><img src="font/cnmsb05.png" />
-				<p>站点展示</p>
-			</li>
-		</ul>
-		<!-- 背景飘落 -->
-		<div id="xuna"></div>
-		<script src="js/cnm.sb_bg.js"></script>
-	</div>
 
-	<p id="eixp">当你在凝视深渊的时候，深渊也正在凝视着你！</p>
+		<p id="eixp">当你在凝视深渊的时候，深渊也正在凝视着你！</p>
 
 </body>
 
